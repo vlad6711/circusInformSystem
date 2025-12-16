@@ -1,76 +1,82 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Панель администратора</title>
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
 
-  <!-- Google Fonts для красивых шрифтов -->
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Google Fonts для красивых шрифтов -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;800&family=Pacifico&display=swap"
+          rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
+<!--<div class="stars">-->
+<!--  <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>-->
+<!--  <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>-->
+<!--</div>-->
+
 
 <!-- КНОПКА ВЫХОДА -->
 <div style="text-align:right; padding:20px;">
-  <a href="/logout" class="logout-btn">Выйти</a>
+    <a href="/logout" class="logout-btn">Выйти</a>
 </div>
 
 <h1 style="text-align:center; color:#ffd700; margin-bottom:20px;">Панель администратора</h1>
 
 <div style="text-align:center; margin-bottom:30px;">
-  <a href="/admin/shows/new" class="admin-btn">➕ Добавить представление</a>
+    <a href="/admin/shows/new" class="admin-btn">➕ Добавить представление</a>
 </div>
 
 <div th:if="${error}"
      style="color:#ff6b6b; text-align:center; margin-bottom:20px; font-weight:700;">
-  ⚠ <span th:text="${error}"></span>
+    ⚠ <span th:text="${error}"></span>
 </div>
 
 <div th:if="${success}"
      style="color:#4cff4c; text-align:center; margin-bottom:20px; font-weight:700;">
-  ✔ <span th:text="${success}"></span>
+    ✔ <span th:text="${success}"></span>
 </div>
 
 
 <!-- КРАСИВАЯ ТАБЛИЦА -->
 <div class="admin-panel">
-  <table class="admin-table">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Название</th>
-      <th>Дата</th>
-      <th>Управление</th>
-    </tr>
-    </thead>
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Дата</th>
+            <th>Управление</th>
+        </tr>
+        </thead>
 
-    <tbody>
-    <tr th:each="show : ${shows}">
-      <td th:text="${show.id}"></td>
-      <td th:text="${show.title}"></td>
-      <td th:text="${#temporals.format(show.dateTime, 'dd.MM.yyyy HH:mm')}"></td>
+        <tbody>
+        <tr th:each="show : ${shows}">
+            <td th:text="${show.id}"></td>
+            <td th:text="${show.title}"></td>
+            <td th:text="${#temporals.format(show.dateTime, 'dd.MM.yyyy HH:mm')}"></td>
 
-      <td>
-        <a th:href="@{/admin/shows/edit/{id}(id=${show.id})}" class="action-btn edit-btn">✏ Изменить</a>
-        <a th:href="@{/admin/shows/delete/{id}(id=${show.id})}" class="action-btn delete-btn">🗑 Удалить</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+            <td>
+                <a th:href="@{/admin/shows/edit/{id}(id=${show.id})}" class="action-btn edit-btn">✏ Изменить</a>
+                <a th:href="@{/admin/shows/delete/{id}(id=${show.id})}" class="action-btn delete-btn">🗑 Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <div style="text-align:center; margin-bottom:30px;">
-  <a href="/admin/artists" class="admin-btn">🎭 Артисты</a>
-  <a href="/admin/animals" class="admin-btn">🐅 Животные</a>
+    <a href="/admin/artists" class="admin-btn">🎭 Артисты</a>
+    <a href="/admin/animals" class="admin-btn">🐅 Животные</a>
 </div>
 
 
 <div style="text-align:center; margin-top:20px;">
-  <a href="/" class="logout-btn">← На главную</a>
+    <a href="/" class="logout-btn">← На главную</a>
 </div>
 
 </body>

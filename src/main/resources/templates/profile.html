@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <title>Личный кабинет</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="auth-page">
+<body class="page">
+<div th:replace="fragments/header :: body"></div>
+
+<div class="stars">
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+</div>
+
 
 <!-- ВЕРТИКАЛЬНЫЙ КОНТЕЙНЕР -->
 <div style="
@@ -18,17 +28,37 @@
 ">
 
     <!-- ПРОФИЛЬ -->
-    <div class="auth-box">
-        <h2>Личный кабинет</h2>
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
 
-        <p><b>Логин:</b> <span th:text="${user.username}"></span></p>
-        <p><b>Email:</b> <span th:text="${user.email}"></span></p>
-        <p><b>ФИО:</b> <span th:text="${user.fullName}"></span></p>
-<!--        <p><b>Роль:</b> <span th:text="${user.role}"></span></p>-->
+            <div class="profile-info">
+                <h2>Личный кабинет</h2>
 
-        <br>
-        <a href="/logout" class="logout-btn">Выйти</a>
+                <div class="profile-row">
+                    <span>Логин:</span>
+                    <b th:text="${user.username}"></b>
+                </div>
+
+                <div class="profile-row">
+                    <span>Email:</span>
+                    <b th:text="${user.email}"></b>
+                </div>
+
+                <div class="profile-row">
+                    <span>ФИО:</span>
+                    <b th:text="${user.fullName}"></b>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="/logout" class="logout-btn">Выйти</a>
+        </div>
     </div>
+
 
     <!-- ЗАГОЛОВОК -->
     <h2>🎟 Мои билеты:</h2>

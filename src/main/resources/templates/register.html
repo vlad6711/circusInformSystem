@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Регистрация</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="auth-page">
+<div class="stars">
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+</div>
+
 
 <div class="auth-box">
-  <h2>Регистрация</h2>
+    <h2>Регистрация</h2>
 
-  <p th:if="${error}" class="error-text" th:text="${error}"></p>
+    <p th:if="${error}" class="error-text" th:text="${error}"></p>
 
-  <form method="post" action="/register">
-    <input type="text" name="username" placeholder="Логин" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="text" name="fullName" placeholder="ФИО" required>
-    <input type="password" name="password" placeholder="Пароль" required>
-    <button type="submit">Зарегистрироваться</button>
-  </form>
+    <form method="post" action="/register">
+        <input type="text" name="username" placeholder="Логин" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="fullName" placeholder="ФИО" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
 
-  <p class="auth-link">
-    Уже есть аккаунт? <a href="/login">Войти</a>
-  </p>
+    <p class="auth-link">
+        Уже есть аккаунт? <a href="/login">Войти</a>
+    </p>
 </div>
 
 </body>
