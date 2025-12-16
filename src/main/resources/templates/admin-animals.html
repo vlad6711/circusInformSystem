@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление животными</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<!-- КНОПКА ВЫХОДА -->
+<div style="text-align:right; padding:20px;">
+    <a href="/logout" class="logout-btn">Выйти</a>
+</div>
+
+<h1 style="text-align:center; color:#ffd700; margin-bottom:30px;">
+    🐅 Управление животными
+</h1>
+
+<!-- ТАБЛИЦА -->
+<div class="admin-panel">
+
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Тип</th>
+            <th>Управление</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="animal : ${animals}">
+            <td th:text="${animal.id}"></td>
+            <td th:text="${animal.name}"></td>
+            <td th:text="${animal.type}"></td>
+
+            <td>
+                <a th:href="@{/admin/animals/edit/{id}(id=${animal.id})}" class="action-btn edit-btn">
+                    ✏ Изменить
+                </a>
+                <a th:href="@{/admin/animals/delete/{id}(id=${animal.id})}" class="action-btn delete-btn">
+                    🗑 Удалить
+                </a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- КНОПКИ ВНИЗУ -->
+<div style="text-align:center; margin-top:30px; display:flex; justify-content:center; gap:20px;">
+    <a href="/admin/animals/new" class="admin-btn">➕ Добавить животное</a>
+    <a href="/admin/shows" class="logout-btn">Назад</a>
+</div>
+
+</body>
+</html>

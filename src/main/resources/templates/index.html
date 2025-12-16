@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title ?: 'Цирк  — Магия под куполом'}">Цирк</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;800&family=Pacifico&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<!-- Кнопка входа / личного кабинета -->
+<div class="login-button">
+
+    <!-- Гость -->
+    <a th:if="${user == null}" href="/login">
+        <i class="fas fa-sign-in-alt"></i> Вход
+    </a>
+
+    <!-- Обычный пользователь -->
+    <a th:if="${user != null and user.role == 'USER'}" href="/profile">
+        <i class="fas fa-user-circle"></i> Личный кабинет
+    </a>
+
+    <!-- Администратор -->
+    <a th:if="${user != null and user.role == 'ADMIN'}" href="/admin/shows">
+        <i class="fas fa-crown"></i> Админ-панель
+    </a>
+
+</div>
+
+<!-- Полноэкранный герой-секция -->
+<section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="main-title">
+            <span class="circus-text">Цирк на Рязанском</span><br>
+            <span class="magic-text">Магия под куполом</span>
+        </h1>
+        <p class="subtitle">Добро пожаловать в мир невероятных трюков, смеха и волшебства!</p>
+
+        <div class="quick-nav">
+            <a href="/artists" class="nav-card">
+                <i class="fas fa-user-ninja"></i>
+                <span>Артисты</span>
+            </a>
+            <a href="/schedule" class="nav-card">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Расписание</span>
+            </a>
+            <a href="/contacts" class="nav-card">
+                <i class="fas fa-phone"></i>
+                <span>Контакты</span>
+            </a>
+            <a href="#catalog" class="nav-card">
+                <i class="fas fa-theater-masks"></i>
+                <span>Шоу</span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- Анимированные звёздочки -->
+    <div class="stars">
+        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+    </div>
+</section>
+
+
+<!--<section id="catalog" style="padding: 80px 40px; background: #0b0720;">-->
+<section id="catalog" class="catalog-section">
+
+
+    <h2 class="main-title" style="text-align:center;">
+        <span class="circus-text">Каталог представлений</span>
+    </h2>
+
+    <div style="display:flex; flex-wrap:wrap; gap:30px; justify-content:center; margin-top:50px;">
+
+        <div th:each="show : ${shows}"
+             style="width:300px;background:rgba(255,255,255,0.1);
+                    border-radius:20px; overflow:hidden; box-shadow:0 0 20px rgba(255,215,0,0.3);
+                    transition:0.3s;">
+
+            <a th:href="@{/shows/{id}(id=${show.id})}" style="text-decoration:none;color:white;">
+
+                <img th:src="${show.imageUrl}"
+                     style="width:100%;height:200px;object-fit:cover;">
+
+                <div style="padding:20px;">
+                    <h3 th:text="${show.title}"></h3>
+
+                    <!-- ✅ ДАТА И ВРЕМЯ -->
+                    <p style="font-size: 0.9rem; opacity:0.8;">
+                        📅 <span th:text="${#temporals.format(show.dateTime, 'dd.MM.yyyy HH:mm')}"></span>
+                    </p>
+
+                    <p th:text="${show.shortDescription}" style="opacity:0.8;"></p>
+
+                    <p class="show-price">
+                        💰 <span th:text="${show.price}"></span> ₽
+                    </p>
+
+                </div>
+
+            </a>
+        </div>
+
+    </div>
+</section>
+
+
+<script>
+    // Простая анимация появления карточек
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('.nav-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.2}s`;
+            card.classList.add('animate');
+        });
+    });
+</script>
+</body>
+</html>

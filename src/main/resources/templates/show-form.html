@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактор представления</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<h1 style="text-align:center; color:#ffd700; margin-top:30px; margin-bottom:20px;">Редактор представления</h1>
+
+<!-- КРАСИВАЯ ФОРМА -->
+<form th:action="@{/admin/shows/save}"
+      th:object="${show}"
+      method="post"
+      class="admin-form">
+
+    <input type="hidden" th:field="*{id}">
+
+    <label>Название</label>
+    <input type="text" th:field="*{title}" required>
+
+    <label>URL обложки</label>
+    <input type="text" th:field="*{imageUrl}" required>
+
+    <label>Дата и время</label>
+    <input type="datetime-local" th:field="*{dateTime}" required>
+
+    <label>Цена (₽)</label>
+    <input type="number" th:field="*{price}" required min="0">
+
+    <label>Краткое описание</label>
+    <textarea th:field="*{shortDescription}" rows="3" required></textarea>
+
+    <label>Полное описание</label>
+    <textarea th:field="*{fullDescription}" rows="6" required></textarea>
+
+    <div class="form-actions">
+        <button type="submit" class="admin-btn">💾 Сохранить</button>
+        <a href="/admin/shows" class="admin-link">← Назад</a>
+    </div>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Артист</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<form th:action="@{/admin/artists/save}"
+      th:object="${artist}"
+      method="post"
+      class="admin-form">
+
+    <input type="hidden" th:field="*{id}">
+
+    <h2>Артист</h2>
+
+    <label>Имя</label>
+    <input type="text" th:field="*{name}" required>
+
+    <label>Жанр / Номер</label>
+    <input type="text" th:field="*{genre}" required>
+
+    <label>Фото (URL)</label>
+    <input type="text" th:field="*{imageUrl}" required>
+
+    <div class="form-actions">
+        <button type="submit" class="admin-btn">Сохранить</button>
+        <a href="/admin/artists" class="admin-link">Назад</a>
+    </div>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Животное</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<form th:action="@{/admin/animals/save}"
+      th:object="${animal}"
+      method="post"
+      class="admin-form">
+
+    <input type="hidden" th:field="*{id}">
+
+    <h2>Животное</h2>
+
+    <label>Кличка</label>
+    <input type="text" th:field="*{name}" required>
+
+    <label>Вид</label>
+    <input type="text" th:field="*{type}" required>
+
+    <label>Фото (URL)</label>
+    <input type="text" th:field="*{imageUrl}" required>
+
+    <div class="form-actions">
+        <button type="submit" class="admin-btn">Сохранить</button>
+        <a href="/admin/animals" class="admin-link">Назад</a>
+    </div>
+
+</form>
+
+</body>
+</html>

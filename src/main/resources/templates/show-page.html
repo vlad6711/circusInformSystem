@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${show.title}">Представление</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<section class="hero" style="min-height: 100vh">
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content" style="max-width: 900px">
+
+    <h1 class="main-title">
+      <span class="circus-text" th:text="${show.title}"></span>
+    </h1>
+
+    <!-- ДАТА И ВРЕМЯ -->
+    <p class="subtitle">
+      📅 <span th:text="${#temporals.format(show.dateTime, 'dd.MM.yyyy HH:mm')}"></span>
+    </p>
+
+    <div class="show-price" th:if="${show.price != null}">
+      🎟 Цена билета: <span th:text="${show.price + ' ₽'}"></span>
+    </div>
+
+    <div class="show-price" th:if="${show.price == null}">
+      🎟 Цена уточняется
+    </div>
+
+    <form th:if="${session.user != null}"
+          th:action="@{/tickets/buy/{id}(id=${show.id})}"
+          method="post">
+
+      <button class="admin-btn">🎟 Купить билет</button>
+    </form>
+
+    <div th:if="${session.user == null}" style="margin-top:15px;">
+      <a href="/login" class="admin-link">Войдите, чтобы купить билет</a>
+    </div>
+
+
+    <img th:src="${show.imageUrl}"
+         style="width:100%;max-height:400px;object-fit:cover;border-radius:25px;
+                    box-shadow:0 0 40px gold; margin:30px 0">
+
+    <div style="
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: center;
+    line-height: 1.6;
+">
+      <p th:text="${show.fullDescription}"></p>
+    </div>
+
+
+    <a href="/" class="logout-btn">← На главную</a>
+
+  </div>
+</section>
+
+</body>
+</html>

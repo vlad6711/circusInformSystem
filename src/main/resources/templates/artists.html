@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Наши артисты</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<section class="catalog-section">
+  <h2>🎭 Наши артисты</h2>
+
+  <div class="catalog-grid">
+    <div class="show-card" th:each="artist : ${artists}">
+      <img th:src="${artist.imageUrl}" alt="">
+      <h3 th:text="${artist.name}"></h3>
+      <p th:text="${artist.genre}"></p>
+    </div>
+  </div>
+</section>
+
+<section class="catalog-section">
+  <h2>🐅 Наши животные</h2>
+
+  <div class="catalog-grid">
+    <div class="show-card" th:each="animal : ${animals}">
+      <img th:src="${animal.imageUrl}" alt="">
+      <h3 th:text="${animal.name}"></h3>
+      <p th:text="${animal.type}"></p>
+    </div>
+  </div>
+</section>
+
+<div style="text-align:center; margin:40px;">
+  <a href="/" class="logout-btn">← На главную</a>
+</div>
+
+</body>
+</html>

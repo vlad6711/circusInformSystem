@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Расписание</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+  <style>
+    .calendar {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 25px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 15px;
+      text-align: center;
+    }
+
+    .day {
+      padding: 15px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .has-show {
+      background: rgba(255, 215, 0, 0.35);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .has-show:hover {
+      box-shadow: 0 0 20px gold;
+    }
+
+    .legend {
+      margin-top: 20px;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .show-list {
+      margin-top: 30px;
+      font-size: 1.1rem;
+    }
+
+    /* === КНОПКИ ПЕРЕКЛЮЧЕНИЯ МЕСЯЦЕВ === */
+    .calendar-btn {
+      background: linear-gradient(135deg, #ffd700, #ff9f00);
+      border: none;
+      border-radius: 14px;
+      width: 52px;
+      height: 52px;
+
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #000;
+
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(255,215,0,0.6);
+      transition: all 0.3s ease;
+    }
+
+    .calendar-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 30px rgba(255,215,0,0.9);
+    }
+
+    .calendar-btn:active {
+      transform: scale(0.95);
+    }
+
+    #monthYear {
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 12px rgba(255,215,0,0.7);
+      text-transform: capitalize;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+    <h1 class="main-title">
+      <span class="circus-text">Расписание</span>
+    </h1>
+
+    <!-- ПЕРЕДАЁМ ДАТЫ В JS -->
+    <script th:inline="javascript">
+      const shows = [[${shows}]];
+    </script>
+
+    <div class="calendar">
+
+      <div class="calendar-header">
+        <button class="calendar-btn" onclick="prevMonth()">←</button>
+        <div id="monthYear"></div>
+        <button class="calendar-btn" onclick="nextMonth()">→</button>
+      </div>
+
+      <div class="calendar-grid" id="calendar"></div>
+
+      <div class="legend">
+        🟡 — В этот день есть представления
+      </div>
+
+      <div class="show-list" id="showList"></div>
+
+    </div>
+
+
+    <br>
+    <a href="/" class="logout-btn">← На главную</a>
+  </div>
+</section>
+
+<script>
+  const calendar = document.getElementById("calendar");
+  const monthYear = document.getElementById("monthYear");
+  const showList = document.getElementById("showList");
+
+  let currentDate = new Date();
+
+  function renderCalendar() {
+    calendar.innerHTML = "";
+    showList.innerHTML = "";
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    monthYear.textContent = currentDate.toLocaleDateString("ru-RU", {
+      month: "long",
+      year: "numeric"
+    });
+
+    const firstDay = new Date(year, month, 1).getDay() || 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 1; i < firstDay; i++) {
+      calendar.appendChild(document.createElement("div"));
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement("div");
+      cell.className = "day";
+      cell.textContent = day;
+
+      const dayShows = shows.filter(s => {
+        const d = new Date(s.dateTime);
+        return d.getDate() === day &&
+                d.getMonth() === month &&
+                d.getFullYear() === year;
+      });
+
+      if (dayShows.length > 0) {
+        cell.classList.add("has-show");
+
+        cell.onclick = () => {
+          showList.innerHTML = "<h3>Представления:</h3>";
+
+          dayShows.forEach(s => {
+            const time = new Date(s.dateTime).toLocaleTimeString("ru-RU", {
+              hour: "2-digit",
+              minute: "2-digit"
+            });
+
+            showList.innerHTML += `
+                            <div style="margin-bottom:15px;">
+                                🎭 <b>${time}</b> –
+                                <a href="/shows/${s.id}" style="color:gold;">
+                                    ${s.title}
+                                </a>
+                            </div>
+                        `;
+          });
+        };
+      }
+
+      calendar.appendChild(cell);
+    }
+  }
+
+  function prevMonth() {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+  }
+
+  function nextMonth() {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+  }
+
+  renderCalendar();
+</script>
+
+</body>
+</html>

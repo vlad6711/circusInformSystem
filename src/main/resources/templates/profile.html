@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="auth-page">
+
+<!-- ВЕРТИКАЛЬНЫЙ КОНТЕЙНЕР -->
+<div style="
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:40px;
+    margin-top:40px;
+">
+
+    <!-- ПРОФИЛЬ -->
+    <div class="auth-box">
+        <h2>Личный кабинет</h2>
+
+        <p><b>Логин:</b> <span th:text="${user.username}"></span></p>
+        <p><b>Email:</b> <span th:text="${user.email}"></span></p>
+        <p><b>ФИО:</b> <span th:text="${user.fullName}"></span></p>
+<!--        <p><b>Роль:</b> <span th:text="${user.role}"></span></p>-->
+
+        <br>
+        <a href="/logout" class="logout-btn">Выйти</a>
+    </div>
+
+    <!-- ЗАГОЛОВОК -->
+    <h2>🎟 Мои билеты:</h2>
+
+    <!-- СПИСОК БИЛЕТОВ ВЕРТИКАЛЬНО -->
+    <div style="
+        width:100%;
+        max-width:600px;
+        display:flex;
+        flex-direction:column;
+        gap:30px;
+    ">
+
+        <div class="show-card" th:each="ticket : ${tickets}">
+            <img th:src="${ticket.show.imageUrl}">
+            <h3 th:text="${ticket.show.title}"></h3>
+
+            <p th:text="${#temporals.format(ticket.show.dateTime, 'dd.MM.yyyy HH:mm')}"></p>
+            <p th:text="${ticket.show.price + ' ₽'}"></p>
+
+            <p style="font-size:0.9rem; opacity:0.7;">
+                Куплен:
+                <span th:text="${#temporals.format(ticket.purchaseTime, 'dd.MM.yyyy HH:mm')}"></span>
+            </p>
+
+            <form th:action="@{/tickets/refund/{id}(id=${ticket.id})}"
+                  method="post"
+                  style="margin-top:15px;"
+                  onsubmit="return confirm('Вы уверены, что хотите сдать билет?');">
+
+                <button type="submit"
+                        style="
+                padding:8px 14px;
+                border-radius:10px;
+                border:none;
+                background:#ff4b2b;
+                color:white;
+                font-weight:bold;
+                cursor:pointer;
+            ">
+                    ❌ Сдать билет
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- КНОПКА НАЗАД -->
+    <a href="/" class="logout-btn">← На главную</a>
+
+</div>
+
+</body>
+</html>
