@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Выбор места — <span th:text="${show.title}"></span></title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .arena {
+            width: 220px;
+            height: 220px;
+            border: 3px dashed #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            background: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .sectors-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .sector {
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .sector-title {
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .seats-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .seat-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .seat {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .seat.free {
+            background: #007bff;
+        }
+
+        .seat.free:hover {
+            background: #0095ff;
+            transform: scale(1.15);
+        }
+
+        .seat.sold {
+            background: rgba(200, 0, 0, 0.7);
+            cursor: not-allowed;
+        }
+
+        .entrances {
+            margin-top: 35px;
+            display: flex;
+            justify-content: space-between;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .sector {
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .sector-title {
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .seats-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .seat-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .seat {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .seat.free {
+            background: #007bff;
+        }
+
+        .seat.free:hover {
+            background: #0095ff;
+            transform: scale(1.15);
+        }
+
+        .seat.sold {
+            background: rgba(200, 0, 0, 0.7);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+<div class="stars">
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+</div>
+
+<div class="page-content" style="padding: 100px 20px 60px;">
+    <h1 class="main-title" style="font-size: 3rem; text-align: center; margin-bottom: 20px;">
+        <span class="circus-text">Выберите место</span>
+    </h1>
+    <p class="subtitle" style="text-align: center; margin-bottom: 40px;">
+        Представление: <span th:text="${show.title}"></span> |
+        <span th:text="${#temporals.format(show.dateTime, 'dd.MM HH:mm')}"></span>
+    </p>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 30px; max-width: 900px; margin: 0 auto;">
+
+        <div style="color: #ffd700; font-weight: bold; font-size: 1.1rem;">
+            Выход артистов
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%; max-width: 800px;">
+            <!-- Сектор 3 (левый верхний) -->
+            <div class="sector" th:if="${seatsBySector.containsKey('Сектор 3')}">
+                <div class="sector-title">Сектор 3</div>
+                <div class="seats-grid">
+                    <th:block th:with="seatsList=${seatsBySector['Сектор 3']}">
+                        <th:block
+                                th:with="totalSeats=${seatsList.size()}, rows=${#numbers.sequence(0, (totalSeats - 1) / 10)}">
+                            <div class="seat-row" th:each="rowIndex : ${rows}">
+                                <th:block th:with="startIndex=${rowIndex * 10}">
+                                    <th:block th:each="i : ${#numbers.sequence(0, 9)}">
+                                        <th:block th:if="${startIndex + i < totalSeats}">
+                                            <div th:with="seat=${seatsList[startIndex + i]}"
+                                                 th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                                 th:text="${seat.number}"
+                                                 th:onclick="|confirmSeatSelection(${seat.number})|">
+                                            </div>
+                                        </th:block>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </th:block>
+                    </th:block>
+                </div>
+            </div>
+
+            <!-- Сектор 4 (правый верхний) -->
+            <div class="sector" th:if="${seatsBySector.containsKey('Сектор 4')}">
+                <div class="sector-title">Сектор 4</div>
+                <div class="seats-grid">
+                    <th:block th:with="seatsList=${seatsBySector['Сектор 4']}">
+                        <th:block
+                                th:with="totalSeats=${seatsList.size()}, rows=${#numbers.sequence(0, (totalSeats - 1) / 10)}">
+                            <div class="seat-row" th:each="rowIndex : ${rows}">
+                                <th:block th:with="startIndex=${rowIndex * 10}">
+                                    <th:block th:each="i : ${#numbers.sequence(0, 9)}">
+                                        <th:block th:if="${startIndex + i < totalSeats}">
+                                            <div th:with="seat=${seatsList[startIndex + i]}"
+                                                 th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                                 th:text="${seat.number}"
+                                                 th:onclick="|confirmSeatSelection(${seat.number})|">
+                                            </div>
+                                        </th:block>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </th:block>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+
+        <div class="arena">Манеж</div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%; max-width: 800px;">
+            <!-- Сектор 1 (левый нижний) -->
+            <div class="sector" th:if="${seatsBySector.containsKey('Сектор 1')}">
+                <div class="sector-title">Сектор 1</div>
+                <div class="seats-grid">
+                    <th:block th:with="seatsList=${seatsBySector['Сектор 1']}">
+                        <!-- Ряд 1: 5 мест (0–4) -->
+                        <div class="seat-row">
+                            <th:block th:each="i : ${#numbers.sequence(0, 4)}">
+                                <th:block th:if="${i < seatsList.size()}">
+                                    <div th:with="seat=${seatsList[i]}"
+                                         th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                         th:text="${seat.number}"
+                                         th:onclick="|confirmSeatSelection(${seat.number})|">
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                        <!-- Ряд 2 -->
+                        <div class="seat-row">
+                            <th:block th:each="i : ${#numbers.sequence(5, 14)}">
+                                <th:block th:if="${i < seatsList.size()}">
+                                    <div th:with="seat=${seatsList[i]}"
+                                         th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                         th:text="${seat.number}"
+                                         th:onclick="|confirmSeatSelection(${seat.number})|">
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                        <!-- Ряд 3 -->
+                        <div class="seat-row">
+                            <th:block th:each="i : ${#numbers.sequence(15, 24)}">
+                                <th:block th:if="${i < seatsList.size()}">
+                                    <div th:with="seat=${seatsList[i]}"
+                                         th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                         th:text="${seat.number}"
+                                         th:onclick="|confirmSeatSelection(${seat.number})|">
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <!-- Сектор 2 (правый нижний) -->
+            <div class="sector" th:if="${seatsBySector.containsKey('Сектор 2')}">
+                <div class="sector-title">Сектор 2</div>
+                <div class="seats-grid">
+                    <th:block th:with="seatsList=${seatsBySector['Сектор 2']}">
+                        <!-- Ряд 1 -->
+                        <div class="seat-row">
+                            <th:block th:each="i : ${#numbers.sequence(0, 4)}">
+                                <th:block th:if="${i < seatsList.size()}">
+                                    <div th:with="seat=${seatsList[i]}"
+                                         th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                         th:text="${seat.number}"
+                                         th:onclick="|confirmSeatSelection(${seat.number})|">
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                        <!-- Ряд 2 -->
+                        <div class="seat-row">
+                            <th:block th:each="i : ${#numbers.sequence(5, 14)}">
+                                <th:block th:if="${i < seatsList.size()}">
+                                    <div th:with="seat=${seatsList[i]}"
+                                         th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                         th:text="${seat.number}"
+                                         th:onclick="|confirmSeatSelection(${seat.number})|">
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                        <!-- Ряд 3 -->
+                        <div class="seat-row">
+                            <th:block th:each="i : ${#numbers.sequence(15, 24)}">
+                                <th:block th:if="${i < seatsList.size()}">
+                                    <div th:with="seat=${seatsList[i]}"
+                                         th:class="${seat.isSold} ? 'seat sold' : 'seat free'"
+                                         th:text="${seat.number}"
+                                         th:onclick="|confirmSeatSelection(${seat.number})|">
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+
+        <!-- ВХОД ЗРИТЕЛЕЙ -->
+        <div style="color: #ffd700; font-weight: bold; font-size: 1.1rem;">
+            Вход зрителей
+        </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="/" class="logout-btn">← Назад к шоу</a>
+    </div>
+</div>
+
+<script>
+    function confirmSeatSelection(seatNumber) {
+        if (confirm(`Вы хотите выбрать место №${seatNumber}?`)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/tickets/buy/${[[${show.id}]]}?seatNumber=${seatNumber}`;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+</body>
+</html>

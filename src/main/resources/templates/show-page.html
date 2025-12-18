@@ -35,12 +35,12 @@
             🎟 Цена уточняется
         </div>
 
-        <form th:if="${session.user != null}"
-              th:action="@{/tickets/buy/{id}(id=${show.id})}"
-              method="post">
-
-            <button class="admin-btn">🎟 Купить билет</button>
-        </form>
+        <a th:if="${session.user != null}"
+           th:href="@{/shows/{id}/select-seat(id=${show.id})}"
+           class="admin-btn"
+           style="text-decoration: none; display: inline-block;">
+            🎟 Выбрать место и купить билет
+        </a>
 
         <div th:if="${session.user == null}" style="margin-top:15px;">
             <a href="/login" class="admin-link">Войдите, чтобы купить билет</a>

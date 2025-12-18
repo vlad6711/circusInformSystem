@@ -60,10 +60,8 @@
     </div>
 
 
-    <!-- ЗАГОЛОВОК -->
     <h2>🎟 Мои билеты:</h2>
 
-    <!-- СПИСОК БИЛЕТОВ ВЕРТИКАЛЬНО -->
     <div style="
         width:100%;
         max-width:600px;
@@ -79,6 +77,10 @@
             <p th:text="${#temporals.format(ticket.show.dateTime, 'dd.MM.yyyy HH:mm')}"></p>
             <p th:text="${ticket.show.price + ' ₽'}"></p>
 
+            <p style="font-size:0.9rem; opacity:0.8; font-weight: bold;">
+                🪑 Место: <span th:text="${ticket.seatNumber}"></span>
+            </p>
+
             <p style="font-size:0.9rem; opacity:0.7;">
                 Куплен:
                 <span th:text="${#temporals.format(ticket.purchaseTime, 'dd.MM.yyyy HH:mm')}"></span>
@@ -91,18 +93,17 @@
 
                 <button type="submit"
                         style="
-                padding:8px 14px;
-                border-radius:10px;
-                border:none;
-                background:#ff4b2b;
-                color:white;
-                font-weight:bold;
-                cursor:pointer;
-            ">
+            padding:8px 14px;
+            border-radius:10px;
+            border:none;
+            background:#ff4b2b;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+        ">
                     ❌ Сдать билет
                 </button>
             </form>
-
         </div>
 
     </div>

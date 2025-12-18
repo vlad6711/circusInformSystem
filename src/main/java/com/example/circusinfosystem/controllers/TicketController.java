@@ -17,19 +17,25 @@ public class TicketController {
         this.showRepository = showRepository;
     }
 
+
     @PostMapping("/tickets/buy/{showId}")
-    public String buyTicket(@PathVariable Long showId, HttpSession session) {
+    public String buyTicket(@PathVariable Long showId,
+                            @RequestParam Integer seatNumber,
+                            HttpSession session) {
 
         User user = (User) session.getAttribute("user");
-
         if (user == null) {
             return "redirect:/login";
+        }
+
+        if (ticketRepository.existsByShowIdAndSeatNumber(showId, seatNumber)) {
+            return "redirect:/shows/" + showId + "/select-seat";
         }
 
         Show show = showRepository.findById(showId)
                 .orElseThrow(() -> new RuntimeException("Шоу не найдено"));
 
-        Ticket ticket = new Ticket(user, show);
+        Ticket ticket = new Ticket(user, show, seatNumber);
         ticketRepository.save(ticket);
 
         return "redirect:/profile";
@@ -47,7 +53,6 @@ public class TicketController {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new RuntimeException("Билет не найден"));
 
-        // 🔒 защита: можно сдавать только свой билет
         if (!ticket.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("Нет прав на сдачу этого билета");
         }

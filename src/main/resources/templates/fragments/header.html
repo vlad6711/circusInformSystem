@@ -5,30 +5,25 @@
 <header class="main-header">
     <div class="header-container">
 
-        <!-- ЛОГО -->
         <a href="/" class="header-logo">🎪 Цирк на Рязанском</a>
 
-        <!-- НАВИГАЦИЯ -->
         <nav class="header-nav">
             <a href="/schedule">Расписание</a>
             <a href="/artists">Артисты</a>
             <a href="/contacts">Контакты</a>
-            <a href="/about">Об авторе</a> <!-- НОВАЯ ССЫЛКА -->
+            <a href="/about">Об авторе</a>
         </nav>
 
-        <!-- КНОПКА справа: вход/профиль/админ -->
         <div class="header-actions">
             <!-- Гость -->
             <a th:if="${user == null}" href="/login" class="header-auth-btn">
                 <i class="fas fa-sign-in-alt"></i> Вход
             </a>
 
-            <!-- USER -->
             <a th:if="${user != null and user.role == 'USER'}" href="/profile" class="header-auth-btn">
                 <i class="fas fa-user-circle"></i> Личный кабинет
             </a>
 
-            <!-- ADMIN -->
             <a th:if="${user != null and user.role == 'ADMIN'}" href="/admin/shows" class="header-auth-btn">
                 <i class="fas fa-crown"></i> Админ-панель
             </a>

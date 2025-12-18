@@ -24,7 +24,8 @@ public class User {
 
     private String role = "USER";
 
-    public User() {}
+    public User() {
+    }
 
     public User(String username, String email, String fullName, String password) {
         this.username = username;

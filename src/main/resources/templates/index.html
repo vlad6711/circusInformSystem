@@ -20,17 +20,14 @@
 <!-- Кнопка входа / личного кабинета -->
 <div class="login-button">
 
-    <!-- Гость -->
     <a th:if="${user == null}" href="/login">
         <i class="fas fa-sign-in-alt"></i> Вход
     </a>
 
-    <!-- Обычный пользователь -->
     <a th:if="${user != null and user.role == 'USER'}" href="/profile">
         <i class="fas fa-user-circle"></i> Личный кабинет
     </a>
 
-    <!-- Администратор -->
     <a th:if="${user != null and user.role == 'ADMIN'}" href="/admin/shows">
         <i class="fas fa-crown"></i> Админ-панель
     </a>
@@ -123,7 +120,7 @@
 
 
 <script>
-    // Простая анимация появления карточек
+    // анимация появления карточек
     document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll('.nav-card').forEach((card, index) => {
             card.style.animationDelay = `${index * 0.2}s`;
