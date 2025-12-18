@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title ?: 'Об авторе'}">Об авторе</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;800&family=Pacifico&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+<div th:replace="fragments/header :: body"></div>
+
+<div class="page-overlay"></div>
+<div class="stars">
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+    <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+</div>
+
+<!-- Кнопка входа / личного кабинета -->
+<!--<div class="login-button">-->
+<!--    <a th:if="${user == null}" href="/login">-->
+<!--        <i class="fas fa-sign-in-alt"></i> Вход-->
+<!--    </a>-->
+<!--    <a th:if="${user != null and user.role == 'USER'}" href="/profile">-->
+<!--        <i class="fas fa-user-circle"></i> Личный кабинет-->
+<!--    </a>-->
+<!--    <a th:if="${user != null and user.role == 'ADMIN'}" href="/admin/shows">-->
+<!--        <i class="fas fa-crown"></i> Админ-панель-->
+<!--    </a>-->
+<!--</div>-->
+
+<!-- Основной контент страницы -->
+<main class="page-content" style="padding: 120px 20px 80px; max-width: 900px; margin: 0 auto; text-align: center;">
+    <h1 class="main-title" style="font-size: 3.5rem; margin-bottom: 40px;">
+        <span class="circus-text">Об авторе</span>
+    </h1>
+
+    <div style="background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(10px); border-radius: 24px; padding: 40px; margin-top: 30px;">
+        <div style="width: 140px; height: 140px; margin: 0 auto 25px; border-radius: 50%; background: linear-gradient(135deg, #ffd700, #ff2e63); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(255,215,0,0.7);">
+            <i class="fas fa-user-astronaut" style="font-size: 4rem; color: white;"></i>
+        </div>
+
+        <h2 style="font-size: 2.2rem; color: #ffd700; margin-bottom: 20px;">Асафьев Владислав</h2>
+        <p style="font-size: 1.2rem; line-height: 1.7; opacity: 0.95; max-width: 600px; margin: 0 auto;">
+            Я студент 3-его курса Финансового университета при Правительстве Российской федерации.
+            Обучаюсь в группе ПИ23-2 по направлению "Прикладная информатика".
+            Моя специальность: Цифровые платформы управления предприятиями.
+        </p>
+
+        <!-- Соцсети -->
+        <!--
+        <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; font-size: 1.8rem;">
+            <a href="#" style="color: #ffd700;"><i class="fab fa-github"></i></a>
+            <a href="#" style="color: #ffd700;"><i class="fab fa-telegram"></i></a>
+            <a href="#" style="color: #ffd700;"><i class="fab fa-linkedin"></i></a>
+        </div>
+        -->
+    </div>
+</main>
+
+</body>
+</html>

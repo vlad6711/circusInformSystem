@@ -13,11 +13,11 @@
             <a href="/schedule">Расписание</a>
             <a href="/artists">Артисты</a>
             <a href="/contacts">Контакты</a>
+            <a href="/about">Об авторе</a> <!-- НОВАЯ ССЫЛКА -->
         </nav>
 
         <!-- КНОПКА справа: вход/профиль/админ -->
         <div class="header-actions">
-
             <!-- Гость -->
             <a th:if="${user == null}" href="/login" class="header-auth-btn">
                 <i class="fas fa-sign-in-alt"></i> Вход
@@ -32,7 +32,6 @@
             <a th:if="${user != null and user.role == 'ADMIN'}" href="/admin/shows" class="header-auth-btn">
                 <i class="fas fa-crown"></i> Админ-панель
             </a>
-
         </div>
 
     </div>
