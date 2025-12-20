@@ -19,7 +19,6 @@ public class HomeController {
     public String home(Model model, HttpSession session) {
 
         model.addAttribute("title", "Информационно-справочная система цирка");
-        model.addAttribute("welcomeMessage", "Добро пожаловать в мир циркового искусства!");
 
         Object user = session.getAttribute("user");
         model.addAttribute("user", user);

@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title th:text="${show.title}">Представление</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+<div th:replace="fragments/header :: body"></div>
 <div class="stars">
     <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
     <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
@@ -39,7 +42,7 @@
            th:href="@{/shows/{id}/select-seat(id=${show.id})}"
            class="admin-btn"
            style="text-decoration: none; display: inline-block;">
-            🎟 Выбрать место и купить билет
+            Выбрать место и купить билет
         </a>
 
         <div th:if="${session.user == null}" style="margin-top:15px;">
