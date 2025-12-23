@@ -18,10 +18,6 @@ public class ArtistPageController {
         this.animalRepository = animalRepository;
     }
 
-    /**
-     * Пользовательская страница "Артисты"
-     * URL: /artists
-     */
     @GetMapping("/artists")
     public String artistsPage(Model model) {
         model.addAttribute("artists", artistRepository.findAll());

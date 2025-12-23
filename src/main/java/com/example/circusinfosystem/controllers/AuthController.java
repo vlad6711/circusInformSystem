@@ -31,7 +31,7 @@ public class AuthController {
         var userOpt = userRepository.findByUsername(username);
 
         if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
-            session.setAttribute("user", userOpt.get()); // ✅ СОХРАНЯЕМ В СЕССИЮ
+            session.setAttribute("user", userOpt.get());
             return "redirect:/";
         }
 
